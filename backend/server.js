@@ -267,7 +267,8 @@ app.get('/api/admin/tests/:id/results/pdf', authenticateToken, (req, res) => {
     });
 });
 
-// ========== EMAIL (Gmail SMTP) ==========
+// ========== EMAIL (Resend HTTP API) ==========
+const { Resend } = require('resend');
 
 app.post('/api/admin/send-email', authenticateToken, async (req, res) => {
     if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
@@ -275,40 +276,27 @@ app.post('/api/admin/send-email', authenticateToken, async (req, res) => {
     if (!to || !to.trim()) return res.status(400).json({ error: 'Recipient email(s) required' });
 
     try {
-        const emailUser = process.env.EMAIL_USER;
-        const emailPass = process.env.EMAIL_PASS;
+        const resendKey = process.env.RESEND_API_KEY;
 
-        if (!emailUser || !emailPass || emailUser.includes('your_')) {
+        if (!resendKey || resendKey.includes('your_')) {
             return res.status(400).json({
-                error: 'Email not configured yet. Please update EMAIL_USER and EMAIL_PASS in backend/.env file with your Gmail ID and App Password. Steps: 1) Go to myaccount.google.com/apppasswords 2) Generate App Password 3) Put it in .env'
+                error: 'Email not configured. Add RESEND_API_KEY to Render environment variables. Get free key at resend.com'
             });
         }
 
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            auth: { user: emailUser, pass: emailPass },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 10000,
-            dnsTimeout: 10000,
-            tls: { rejectUnauthorized: false },
-        });
-
-        // Verify connection first
-        await transporter.verify();
-
+        const resend = new Resend(resendKey);
         const emails = to.split(',').map(e => e.trim()).filter(e => e);
-        await transporter.sendMail({
-            from: process.env.EMAIL_FROM || emailUser,
-            to: emails.join(', '),
+
+        await resend.emails.send({
+            from: 'PVG Mock Test <onboarding@resend.dev>',
+            to: emails,
             subject: subject || 'Mock Test Notification',
             html: body || '<h2>New Mock Test Available</h2><p>Please login to the Mock Test Platform to take the test.</p>',
         });
+
         res.json({ message: 'Email sent successfully to ' + emails.length + ' recipient(s)!' });
     } catch (err) {
-        res.status(500).json({ error: 'Email failed: ' + err.message });
+        res.status(500).json({ error: 'Email failed: ' + (err.message || JSON.stringify(err)) });
     }
 });
 
