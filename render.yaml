@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: pvg-mock-test
+    runtime: node
+    buildCommand: "cd frontend && npm install && npm run build && cd ../backend && npm install"
+    startCommand: "cd backend && node server.js"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: pvg_mock_test_secret_key_2026
+      - key: ADMIN_SECRET
+        value: pvgadmin2026

@@ -1,0 +1,109 @@
+/* Quick Actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.action-card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.action-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-500);
+    box-shadow: var(--shadow-lg), 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+.action-card:hover::after {
+    opacity: 1;
+}
+
+.action-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.action-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+}
+
+.action-card p {
+    color: var(--gray-400);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+/* Test Cards Grid */
+.tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.test-card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-normal);
+}
+
+.test-card:hover {
+    border-color: var(--border-color-light);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.test-card-top {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.test-card-title {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.test-card-desc {
+    color: var(--gray-400);
+    font-size: 0.85rem;
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.test-card-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .tests-grid {
+        grid-template-columns: 1fr;
+    }
+}

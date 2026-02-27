@@ -1,0 +1,175 @@
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0c1222 0%, #1a1040 50%, #0c1222 100%);
+}
+
+/* Animated background orbs */
+.bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float 8s ease-in-out infinite;
+}
+
+.bg-orb-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--primary-600), transparent);
+    top: -100px;
+    right: -100px;
+    animation-delay: 0s;
+}
+
+.bg-orb-2 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--accent-500), transparent);
+    bottom: -60px;
+    left: -60px;
+    animation-delay: 2s;
+}
+
+.bg-orb-3 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, var(--success-500), transparent);
+    top: 50%;
+    left: 50%;
+    animation-delay: 4s;
+    opacity: 0.2;
+}
+
+.login-container {
+    background: rgba(26, 35, 50, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 1;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.college-branding {
+    margin-bottom: 24px;
+}
+
+.college-name {
+    font-size: 1.15rem;
+    color: var(--gray-300);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.college-name-highlight {
+    display: block;
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, var(--primary-400), var(--accent-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+.college-sub {
+    color: var(--gray-400);
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.naac-badge {
+    display: inline-flex;
+    margin-top: 10px;
+    padding: 4px 16px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-400);
+    letter-spacing: 0.05em;
+}
+
+.platform-title {
+    margin-top: 16px;
+}
+
+.platform-icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.platform-title h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.platform-title p {
+    color: var(--gray-400);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* Form */
+.form-toggle {
+    display: flex;
+    background: var(--surface-dark);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    margin-bottom: 24px;
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gray-400);
+    background: transparent;
+    transition: all var(--transition-normal);
+}
+
+.toggle-btn.active {
+    background: var(--primary-600);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.form-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: var(--danger-400);
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+}
+
+.login-submit {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 1rem;
+    padding: 14px;
+}
+
+@media (max-width: 520px) {
+    .login-container {
+        margin: 16px;
+        padding: 32px 24px;
+    }
+}

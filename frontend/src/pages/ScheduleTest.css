@@ -1,0 +1,346 @@
+.schedule-header {
+    margin-bottom: 32px;
+}
+
+.schedule-header h1 {
+    font-size: 1.8rem;
+}
+
+.schedule-header p {
+    color: var(--gray-400);
+    margin-top: 4px;
+}
+
+/* Step Indicator */
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 16px 24px;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.step-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--surface-elevated);
+    color: var(--gray-400);
+    border: 2px solid var(--border-color);
+    transition: all var(--transition-normal);
+}
+
+.step-item.active .step-number {
+    background: var(--primary-600);
+    color: #fff;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+.step-item.completed .step-number {
+    background: var(--success-600);
+    color: #fff;
+    border-color: var(--success-500);
+}
+
+.step-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gray-400);
+}
+
+.step-item.active .step-label {
+    color: #fff;
+}
+
+.step-item.completed .step-label {
+    color: var(--success-400);
+}
+
+/* Schedule Content */
+.schedule-content {
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+}
+
+.schedule-step h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.step-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Sections */
+.sections-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.section-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface-elevated);
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+}
+
+/* Eligibility */
+.eligibility-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.eligibility-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--surface-elevated);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.eligibility-option:hover {
+    border-color: var(--border-color-light);
+}
+
+.eligibility-option.active {
+    border-color: var(--primary-500);
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.eligibility-option input[type="radio"] {
+    display: none;
+}
+
+.elig-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gray-300);
+}
+
+.eligibility-option.active .elig-label {
+    color: #fff;
+}
+
+.branch-select {
+    margin-top: 16px;
+}
+
+.branch-select label {
+    font-weight: 500;
+    color: var(--gray-300);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.branch-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.branch-chip {
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    background: var(--surface-elevated);
+    border: 1.5px solid var(--border-color);
+    color: var(--gray-300);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.branch-chip:hover {
+    border-color: var(--primary-500);
+}
+
+.branch-chip.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: var(--primary-500);
+    color: var(--primary-400);
+}
+
+/* AI Generator */
+.ai-generator {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.ai-generator h3 {
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+}
+
+.ai-generator p {
+    color: var(--gray-400);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+}
+
+.ai-topics-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gray-300);
+    margin-bottom: 8px;
+}
+
+.ai-topic-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.ai-form-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-end;
+}
+
+.ai-row {
+    display: flex;
+    gap: 10px;
+}
+
+.ai-row .form-input {
+    flex: 1;
+}
+
+/* Question Form */
+.question-form h3 {
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+}
+
+/* Questions Preview */
+.questions-preview h3 {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+}
+
+.q-preview-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    background: var(--surface-elevated);
+    border-radius: var(--radius-md);
+    margin-bottom: 8px;
+}
+
+.q-preview-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary-600);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.q-preview-content {
+    flex: 1;
+}
+
+.q-preview-content p {
+    color: var(--gray-300);
+    font-size: 0.88rem;
+    margin-top: 4px;
+}
+
+/* Review */
+.review-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.review-label {
+    font-weight: 500;
+    color: var(--gray-400);
+    font-size: 0.9rem;
+}
+
+.review-value {
+    font-weight: 600;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step-indicator {
+        flex-direction: column;
+    }
+
+    .ai-row {
+        flex-direction: column;
+    }
+}

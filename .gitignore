@@ -1,0 +1,8 @@
+node_modules
+.env
+*.sqlite
+ngrok.exe
+ngrok.zip
+tunnel*.txt
+tunnel*.log
+tunnel.js
