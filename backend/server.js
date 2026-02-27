@@ -473,10 +473,17 @@ function getLanIP() {
 
 // ========== SERVE FRONTEND (Production) ==========
 const frontendPath = path.join(__dirname, '..', 'frontend', 'dist');
-app.use(express.static(frontendPath));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendPath, 'index.html'));
-});
+const fs = require('fs');
+if (fs.existsSync(frontendPath)) {
+    app.use(express.static(frontendPath));
+    app.use((req, res, next) => {
+        if (req.method === 'GET' && !req.path.startsWith('/api')) {
+            res.sendFile(path.join(frontendPath, 'index.html'));
+        } else {
+            next();
+        }
+    });
+}
 
 app.listen(PORT, '0.0.0.0', () => {
     const lanIP = getLanIP();
