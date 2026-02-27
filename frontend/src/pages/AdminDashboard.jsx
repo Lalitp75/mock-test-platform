@@ -90,12 +90,12 @@ export default function AdminDashboard() {
         if (!emailForm.to.trim()) return showToast('Enter email addresses', 'error');
         setEmailSending(true);
         try {
-            const res = await api.post('/admin/send-email', { ...emailForm, test_id: emailModal.id });
-            showToast(`Email sent! Preview: ${res.data.previewUrl ? 'Check console' : 'Sent'}`);
-            if (res.data.previewUrl) console.log('Email preview:', res.data.previewUrl);
+            const res = await api.post('/admin/send-email', { ...emailForm, test_id: emailModal.id }, { timeout: 15000 });
+            showToast(res.data.message || 'Email sent!');
             setEmailModal(null);
         } catch (err) {
-            showToast('Email failed: ' + (err.response?.data?.error || err.message), 'error');
+            const msg = err.response?.data?.error || (err.code === 'ECONNABORTED' ? 'Email timed out. Check Gmail credentials on Render.' : err.message);
+            showToast('Email failed: ' + msg, 'error');
         }
         setEmailSending(false);
     };

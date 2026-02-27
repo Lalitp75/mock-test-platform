@@ -287,7 +287,13 @@ app.post('/api/admin/send-email', authenticateToken, async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: { user: emailUser, pass: emailPass },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 10000,
         });
+
+        // Verify connection first
+        await transporter.verify();
 
         const emails = to.split(',').map(e => e.trim()).filter(e => e);
         await transporter.sendMail({
