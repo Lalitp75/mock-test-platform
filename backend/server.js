@@ -1,4 +1,6 @@
 require('dotenv').config();
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
@@ -267,8 +269,7 @@ app.get('/api/admin/tests/:id/results/pdf', authenticateToken, (req, res) => {
     });
 });
 
-// ========== EMAIL (Resend HTTP API) ==========
-const { Resend } = require('resend');
+// ========== EMAIL (Gmail SMTP with IPv4) ==========
 
 app.post('/api/admin/send-email', authenticateToken, async (req, res) => {
     if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
@@ -276,27 +277,35 @@ app.post('/api/admin/send-email', authenticateToken, async (req, res) => {
     if (!to || !to.trim()) return res.status(400).json({ error: 'Recipient email(s) required' });
 
     try {
-        const resendKey = process.env.RESEND_API_KEY;
+        const emailUser = process.env.EMAIL_USER;
+        const emailPass = process.env.EMAIL_PASS;
 
-        if (!resendKey || resendKey.includes('your_')) {
+        if (!emailUser || !emailPass || emailUser.includes('your_')) {
             return res.status(400).json({
-                error: 'Email not configured. Add RESEND_API_KEY to Render environment variables. Get free key at resend.com'
+                error: 'Email not configured. Add EMAIL_USER (Gmail) and EMAIL_PASS (App Password) in Render Environment variables.'
             });
         }
 
-        const resend = new Resend(resendKey);
-        const emails = to.split(',').map(e => e.trim()).filter(e => e);
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            auth: { user: emailUser, pass: emailPass },
+            connectionTimeout: 15000,
+            greetingTimeout: 15000,
+            socketTimeout: 15000,
+        });
 
-        await resend.emails.send({
-            from: 'PVG Mock Test <onboarding@resend.dev>',
-            to: emails,
+        const emails = to.split(',').map(e => e.trim()).filter(e => e);
+        await transporter.sendMail({
+            from: process.env.EMAIL_FROM || emailUser,
+            to: emails.join(', '),
             subject: subject || 'Mock Test Notification',
             html: body || '<h2>New Mock Test Available</h2><p>Please login to the Mock Test Platform to take the test.</p>',
         });
-
         res.json({ message: 'Email sent successfully to ' + emails.length + ' recipient(s)!' });
     } catch (err) {
-        res.status(500).json({ error: 'Email failed: ' + (err.message || JSON.stringify(err)) });
+        res.status(500).json({ error: 'Email failed: ' + err.message });
     }
 });
 
