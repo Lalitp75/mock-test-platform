@@ -407,10 +407,12 @@ export default function ScheduleTest() {
                         </div>
                     )}
 
-                    {/* Step 4: Review & Publish */}
+                    {/* Step 4: Preview & Publish */}
                     {step === 4 && (
                         <div className="schedule-step">
-                            <h2>Review & Publish</h2>
+                            <h2>📋 Test Preview</h2>
+                            <p style={{ color: 'var(--gray-400)', marginBottom: 16 }}>Review all questions and answers before publishing</p>
+
                             <div className="review-summary">
                                 <div className="review-item">
                                     <span className="review-label">Title</span>
@@ -421,27 +423,68 @@ export default function ScheduleTest() {
                                     <span className="review-value">{testForm.duration} minutes</span>
                                 </div>
                                 <div className="review-item">
-                                    <span className="review-label">Sections</span>
-                                    <span className="review-value">{testForm.sections.map(s => s.title).join(', ')}</span>
-                                </div>
-                                <div className="review-item">
                                     <span className="review-label">Questions</span>
                                     <span className="review-value">{questions.length} questions</span>
                                 </div>
+                                <div className="review-item">
+                                    <span className="review-label">Total Marks</span>
+                                    <span className="review-value">{questions.reduce((sum, q) => sum + (q.marks || 1), 0)}</span>
+                                </div>
+                                {testForm.scheduled_date && (
+                                    <div className="review-item">
+                                        <span className="review-label">Scheduled</span>
+                                        <span className="review-value">{testForm.scheduled_date} at {testForm.scheduled_time || 'Any time'}</span>
+                                    </div>
+                                )}
                                 <div className="review-item">
                                     <span className="review-label">Eligibility</span>
                                     <span className="review-value">{testForm.eligibility_type === 'all' ? 'All Students' :
                                         testForm.eligibility_type === 'branch' ? `Branches: ${testForm.branches.join(', ')}` :
                                             testForm.eligibility_type === 'group' ? `Groups: ${testForm.groups}` : 'Specific Students'}</span>
                                 </div>
-                                <div className="review-item">
-                                    <span className="review-label">Result Display</span>
-                                    <span className="review-value">{testForm.result_display === 'immediate' ? 'Immediately after submission' : 'Admin releases later'}</span>
-                                </div>
                             </div>
 
-                            <div className="step-actions">
-                                <button className="btn btn-ghost" onClick={() => setStep(3)}>← Back</button>
+                            <h3 style={{ marginTop: 24, marginBottom: 12, fontSize: '1.1rem' }}>📝 Questions Preview</h3>
+                            <div style={{ maxHeight: '500px', overflowY: 'auto', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '12px' }}>
+                                {questions.map((q, i) => (
+                                    <div key={q.id} className="question-card" style={{ marginBottom: 12 }}>
+                                        <div className="question-card-header">
+                                            <span className="question-num">Q{i + 1}</span>
+                                            <span className="badge badge-primary">{q.type.toUpperCase()}</span>
+                                            <span className="badge badge-success">{q.marks || 1} mark(s)</span>
+                                        </div>
+                                        <p className="question-text" style={{ margin: '8px 0', fontWeight: 500 }}>{q.question_text}</p>
+                                        {q.type === 'mcq' && q.options && (
+                                            <div className="question-options" style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
+                                                {q.options.map((opt, j) => (
+                                                    <div key={j} style={{
+                                                        padding: '8px 12px', borderRadius: 6, fontSize: '0.88rem',
+                                                        background: opt === q.correct_answer ? 'rgba(34,197,94,0.15)' : 'rgba(255,255,255,0.04)',
+                                                        border: opt === q.correct_answer ? '1px solid rgba(34,197,94,0.4)' : '1px solid var(--border-color)',
+                                                        color: opt === q.correct_answer ? '#22c55e' : 'var(--gray-300)',
+                                                        fontWeight: opt === q.correct_answer ? 600 : 400,
+                                                    }}>
+                                                        {String.fromCharCode(65 + j)}) {opt} {opt === q.correct_answer && ' ✅'}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                        {q.type === 'coding' && (
+                                            <div style={{ padding: '8px 12px', borderRadius: 6, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)', marginTop: 8, fontSize: '0.85rem', color: 'var(--primary-400)' }}>
+                                                💻 Coding Question
+                                            </div>
+                                        )}
+                                        {q.explanation && (
+                                            <div style={{ padding: '8px 12px', borderRadius: 6, background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', marginTop: 8, fontSize: '0.83rem', color: '#f59e0b' }}>
+                                                💡 Explanation: {q.explanation}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="step-actions" style={{ marginTop: 20 }}>
+                                <button className="btn btn-ghost" onClick={() => setStep(3)}>← Back to Edit</button>
                                 <button className="btn btn-success btn-lg" onClick={handleSubmit} disabled={submitting}>
                                     {submitting ? '⏳ Publishing...' : '🚀 Publish Test'}</button>
                             </div>
